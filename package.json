@@ -1,0 +1,22 @@
+{
+  "name": "shortlinks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MogilevichDmitry/shortlinks.git"
+  },
+  "keywords": [
+    "npm"
+  ],
+  "author": "Mogilevich Dmitry <dmsmain@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MogilevichDmitry/shortlinks/issues"
+  },
+  "homepage": "https://github.com/MogilevichDmitry/shortlinks#readme"
+}
