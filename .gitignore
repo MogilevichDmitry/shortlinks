@@ -1,3 +1,7 @@
+# ide
+*.ial
+.idea/
+
 # Logs
 logs
 *.log
