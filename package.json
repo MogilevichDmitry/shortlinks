@@ -6,6 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MogilevichDmitry/shortlinks.git"
@@ -18,5 +23,14 @@
   "bugs": {
     "url": "https://github.com/MogilevichDmitry/shortlinks/issues"
   },
-  "homepage": "https://github.com/MogilevichDmitry/shortlinks#readme"
+  "homepage": "https://github.com/MogilevichDmitry/shortlinks#readme",
+  "dependencies": {
+    "babel-core": "^6.8.0",
+    "babel-preset-es2015": "^6.6.0",
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "jsonwebtoken": "^7.0.0",
+    "morgan": "^1.7.0",
+    "nodemon": "^1.9.2"
+  }
 }
