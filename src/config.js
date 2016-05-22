@@ -1,3 +1,5 @@
 export default {
-    'database': 'mongodb://localhost:27017/shortlinks'
+    'secret':'secret',
+    'database': 'mongodb://localhost:27017/shortlinks',
+    'port': 3000
 }
