@@ -1,16 +1,12 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const linkSchema = new Schema({
+export default mongoose.model('Link', new Schema({
     initialLink: String,
     shortLink: String,
     date: { type: Date, default: Date.now },
-    //visitCount: Number,
-    //description: String,
-    //tags: Array,
-});
+}));
 
-const Link = mongoose.model('Link', linkSchema);
 
-export default Link;
+

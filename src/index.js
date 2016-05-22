@@ -1,19 +1,18 @@
-import express from "express";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import morgan from 'morgan';
 import config from './config';
 import router from './routes/api';
 
 const app = express();
 
+mongoose.connect(config.database);
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-mongoose.connect(config.database);
-
-app.get('/', function(req, res) {
-    res.send('Hello World');
-});
+app.use(morgan('dev'));
 
 app.use('/', router);
 /*app.post('/api', function(req, res) {
@@ -22,6 +21,6 @@ app.use('/', router);
    // res.send(200);
 });*/
 
-app.listen(3000, function() {
-    console.log('Listening 3000 port, its okey;)');
+app.listen(config.port, function() {
+    console.log('Listening ' + config.port +' port, its okey;)');
 });
