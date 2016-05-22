@@ -1,7 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import Link from '../models/links';
-import User from '../models/users';
+import Link from '../models/link';
+import User from '../models/user';
 import config from '../config'
 
 const app = express();
@@ -12,46 +12,6 @@ app.set('superSecret', config.secret);
 
 router.get('/', function(req, res) {
     res.send('Hello World');
-});
-
-router.post('/links', function(req, res) {
-    Link.create({initialLink: req.body.initialLink}, function(err, link) {
-       if(err) {
-           console.log(err);
-       } else {
-           res.send(link);
-       }
-    });
-});
-
-router.get('/links', function(req, res) {
-   Link.find({}, function(err, links) {
-      if(err) {
-          console.log(err);
-      } else {
-          res.send(links);
-      }
-   });
-});
-
-router.post('/users', function(req, res) {
-    User.create({name: req.body.name, password: req.body.password}, function(err, user) {
-        if(err){
-            console.log(err);
-        } else {
-            res.send(user);
-        }
-    });
-});
-
-router.get('/users', function(req, res) {
-    User.find({}, function(err, user) {
-        if(err){
-            console.log(err);
-        } else {
-            res.send(user);
-        }
-    });
 });
 
 router.post('/authenticate', function(req, res) {
@@ -70,7 +30,7 @@ router.post('/authenticate', function(req, res) {
                 res.json({ success: false, message: 'Authentication failed. Wrong password.' });
             } else {
 
-                var token = jwt.sign(user, app.get('superSecret'), {
+                var token = jwt.sign({ name: user.name }, app.get('superSecret'), {
                     expiresIn: '24h'
                 });
 
@@ -83,6 +43,16 @@ router.post('/authenticate', function(req, res) {
 
         }
 
+    });
+});
+
+router.post('/users', function(req, res) {
+    User.create({name: req.body.name, password: req.body.password}, function(err, user) {
+        if(err){
+            console.log(err);
+        } else {
+            res.send(user);
+        }
     });
 });
 
@@ -110,5 +80,50 @@ router.use(function(req, res, next) {
     }
 });
 
+router.get('/users', function(req, res) {
+    User.find({}, function(err, user) {
+        if(err){
+            console.log(err);
+        } else {
+            res.send(user);
+        }
+    });
+});
+
+router.post('/links', function(req, res) {
+
+    User.findOne({name: req.decoded.name}).populate('links').exec(function (err, user) {
+
+        var link = new Link({
+            initialLink : req.body.initialLink
+        });
+
+        user.links.push(link);
+
+        user.save(function (err) {
+            if (err) return res.send(err);
+
+            link.save(function (err) {
+                if (err) return res.send(err);
+
+                res.json({
+                    success: true,
+                    message: 'NEED SHORTLINK'
+                });
+            });
+
+        })
+    })
+});
+
+router.get('/links', function(req, res) {
+   Link.find({}, function(err, links) {
+      if(err) {
+          console.log(err);
+      } else {
+          res.send(links);
+      }
+   });
+});
 
 export default router;
