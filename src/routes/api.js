@@ -94,10 +94,18 @@ router.post('/links', function(req, res) {
 
     User.findOne({ name: req.decoded.name }).populate('links').exec(function (err, user) {
 
+        const strTags = req.body.tags;
+
+        let tags = strTags.split(" ").filter(value => {
+            return (value !== "")
+        });
+
         var link = new Link({
             initialLink : req.body.initialLink,
             shortLink : shortLink(),
-            author : req.decoded.name
+            author : req.decoded.name,
+            description: req.body.description,
+            tags : tags
         });
 
         user.links.push(link);
