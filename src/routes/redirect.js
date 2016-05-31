@@ -10,7 +10,17 @@ redirectRouter.get('/:shortLink', function(req, res) {
             console.log(err);
         } else {
 
-            if (link) {
+            if(link) {
+
+                link.clickCount ++;
+
+                link.save(function (err){
+
+                    if (err) return res.send(err);
+
+                    console.log("clickCount updated");
+                });
+
                 var initialLink = link.initialLink;
                 res.redirect(initialLink);
 
