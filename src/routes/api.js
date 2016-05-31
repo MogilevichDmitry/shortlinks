@@ -2,11 +2,11 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import Link from '../models/link';
 import User from '../models/user';
-import config from '../config'
+import config from '../config';
+import shortLink from '../library/lib';
 
 const app = express();
 const router = express.Router();
-console.log('Hello');
 
 app.set('superSecret', config.secret);
 
@@ -81,21 +81,22 @@ router.use(function(req, res, next) {
 });
 
 router.get('/users', function(req, res) {
-    User.find({}, function(err, user) {
+    User.find({}, function(err, users) {
         if(err){
             console.log(err);
         } else {
-            res.send(user);
+            res.send(users);
         }
     });
 });
 
 router.post('/links', function(req, res) {
 
-    User.findOne({name: req.decoded.name}).populate('links').exec(function (err, user) {
+    User.findOne({ name: req.decoded.name }).populate('links').exec(function (err, user) {
 
         var link = new Link({
-            initialLink : req.body.initialLink
+            initialLink : req.body.initialLink,
+            shortLink : shortLink()
         });
 
         user.links.push(link);
@@ -108,22 +109,25 @@ router.post('/links', function(req, res) {
 
                 res.json({
                     success: true,
-                    message: 'NEED SHORTLINK'
+                    message: "ShortLink for " + user.name + ": " + link.shortLink
                 });
             });
-
         })
     })
 });
 
 router.get('/links', function(req, res) {
-   Link.find({}, function(err, links) {
-      if(err) {
-          console.log(err);
-      } else {
-          res.send(links);
-      }
-   });
+   User.findOne({ name: req.decoded.name }).populate('links').exec(function (err, user) {
+
+       if (err) return res.send(err);
+
+       res.json(user.links);
+   })
+});
+
+router.get('/redirect', function(req, res) {
+    var string = encodeURIComponent('here');
+    res.redirect('/?valid=' + string);
 });
 
 export default router;
