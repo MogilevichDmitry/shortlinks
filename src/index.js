@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import config from './config';
 import router from './routes/api';
 import redirectRouter from './routes/redirect';
+import linkInfoRouter from './routes/linkInfo';
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 
 app.use(morgan('dev'));
 
+app.use('/info', linkInfoRouter);
 app.use('/ref', redirectRouter);
 app.use('/', router);
 

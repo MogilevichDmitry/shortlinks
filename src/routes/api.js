@@ -96,7 +96,8 @@ router.post('/links', function(req, res) {
 
         var link = new Link({
             initialLink : req.body.initialLink,
-            shortLink : shortLink()
+            shortLink : shortLink(),
+            author : req.decoded.name
         });
 
         user.links.push(link);
