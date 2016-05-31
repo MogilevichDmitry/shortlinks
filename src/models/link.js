@@ -7,6 +7,8 @@ const LinkSchema = Schema({
     initialLink: { type: String, ref: 'User' },
     shortLink: { type: String, ref: 'User' },
     author: String,
+    description: String,
+    tags: Array,
     clickCount: { type: Number, default: 0 }
 });
 

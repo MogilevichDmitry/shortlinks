@@ -19,8 +19,8 @@ linkInfoRouter.get('/:shortLink', function(req, res) {
                     clickCount: link.clickCount,
                     initialLink: link.initialLink,
                     shortLink: link.shortLink,
-                    description: "need add description in model",
-                    tags: "need tags in model"
+                    description: link.description,
+                    tags: link.tags
                 });
 
             } else {
