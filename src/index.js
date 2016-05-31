@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import morgan from 'morgan';
 import config from './config';
 import router from './routes/api';
+import redirectRouter from './routes/redirect';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 
 app.use(morgan('dev'));
 
+app.use('/ref', redirectRouter);
 app.use('/', router);
 
 app.listen(config.port, function() {
