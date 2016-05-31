@@ -6,6 +6,7 @@ import config from './config';
 import router from './routes/api';
 import redirectRouter from './routes/redirect';
 import linkInfoRouter from './routes/linkInfo';
+import tagRouter from './routes/tags';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 
 app.use(morgan('dev'));
 
+app.use('/tag', tagRouter);
 app.use('/info', linkInfoRouter);
 app.use('/ref', redirectRouter);
 app.use('/', router);
