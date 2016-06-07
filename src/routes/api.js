@@ -23,10 +23,12 @@ router.post('/authenticate', function(req, res) {
         if (err) throw err;
 
         if (!user) {
+            res.status(401);
             res.json({ success: false, message: 'Authentication failed. User not found.' });
         } else if (user) {
 
             if (user.password != req.body.password) {
+                res.status(401);
                 res.json({ success: false, message: 'Authentication failed. Wrong password.' });
             } else {
 
@@ -34,6 +36,7 @@ router.post('/authenticate', function(req, res) {
                     expiresIn: '24h'
                 });
 
+                res.status(200);
                 res.json({
                     success: true,
                     message: 'Enjoy your token!',
@@ -51,7 +54,15 @@ router.post('/users', function(req, res) {
         if(err){
             console.log(err);
         } else {
-            res.send(user);
+            var token = jwt.sign({ name: user.name }, app.get('superSecret'), {
+                expiresIn: '24h'
+            });
+            res.status(201);
+            res.json({
+                name: user.name,
+                token: token
+            });
+
         }
     });
 });
