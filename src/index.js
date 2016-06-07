@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import cors from 'cors';
 import config from './config';
 import router from './routes/api';
 import redirectRouter from './routes/redirect';
@@ -14,6 +15,8 @@ mongoose.connect(config.database);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(cors());
 
 app.use(morgan('dev'));
 
