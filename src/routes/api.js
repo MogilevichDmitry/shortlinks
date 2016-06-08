@@ -127,9 +127,9 @@ router.post('/links', function(req, res) {
             link.save(function (err) {
                 if (err) return res.send(err);
 
-                res.json({
+                res.status(200).json({
                     success: true,
-                    message: "ShortLink for " + user.name + ": " + link.shortLink
+                    link
                 });
             });
         })
